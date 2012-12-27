@@ -9,13 +9,15 @@ namespace Nucumber.Controllers
 
         public ActionResult Index()
         {
-            return Json("You have navigated to features correctly");
+            return Json("You have navigated to features correctly",JsonRequestBehavior.AllowGet);
         }
 
-        public string FeatureFile(string nameOfFeature)
+        public ActionResult Details(string id)
         {
-            var sourceFile = HttpContext.Server.MapPath(Path.Combine(FeatureFileFolder, "assets", "style", "release.css"));
-            return "This feature file is at: " + new FilePathResult(sourceFile, "text/css").FileName;
+            return Json(
+                string.Format("You have navigated to the feature file for {0} correctly", id), 
+                JsonRequestBehavior.AllowGet
+            );
         }
     }
 }

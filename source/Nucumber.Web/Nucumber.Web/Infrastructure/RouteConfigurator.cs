@@ -10,12 +10,6 @@ namespace Nucumber.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "Feature", // Route name
-                "Features/{action}/{id}", // URL with parameters
-                new { controller = "Nucumber", action = "Index", id = UrlParameter.Optional } // Parameter defaults
-            );
-
-            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Example", action = "Index", id = UrlParameter.Optional} // Parameter defaults
