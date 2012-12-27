@@ -48,3 +48,4 @@ Wiggle.BMF/Web_deploy/*
 Wiggle.BMF/Wiggle.BMF.Web/Download/*
 
 */UpgradeLog*.htm
+source/Nucumber.Web/Nucumber.Web/Nucumber.Web.Publish.xml
