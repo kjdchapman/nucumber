@@ -9,16 +9,9 @@ namespace Nucumber
         public static void RegisterFeatureRoutes()
         {
             RouteTable.Routes.MapRoute(
-               "FeatureNavigation", // Route name
-               "Features", // URL with parameters
-               new { controller = "FeatureNavigation", action = "Index"}, // Parameter defaults
-               new[] { "Nucumber.Controllers" } // namespace
-            );
-
-            RouteTable.Routes.MapRoute(
-                "FeatureDetail", // Route name
+                "Feature", // Route name
                 "Features/{action}/{id}", // URL with parameters
-                new { controller = "FeatureDetail", id = UrlParameter.Optional }, // Parameter defaults
+                new { controller = "Nucumber", action = "Index", id = UrlParameter.Optional }, // Parameter defaults
                 new[] { "Nucumber.Controllers" } // namespace
             );
         }
