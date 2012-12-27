@@ -18,9 +18,15 @@ namespace Nucumber.Tests
         }
 
         [Test]
+        public void Nucumber_index_route_should_hit_nucumber_controller()
+        {
+            "~/features/index".ShouldMapTo<NucumberController>(controller => controller.Index());
+        }
+
+        [Test]
         public void Nucumber_route_should_hit_nucumber_controller()
         {
-            "~/Features/".ShouldMapTo<NucumberController>(controller => controller.Index());
+            "~/features/details/example".ShouldMapTo<NucumberController>(controller => controller.Details("example"));
         }
 
         [Test]
