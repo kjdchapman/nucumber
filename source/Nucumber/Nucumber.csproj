@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="FeatureFile.cs" />
     <Compile Include="FeatureStore.cs" />
+    <Compile Include="GherkinParser.cs" />
     <Compile Include="NucumberController.cs" />
     <Compile Include="Initializer.cs" />
   </ItemGroup>
