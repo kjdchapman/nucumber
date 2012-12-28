@@ -8,21 +8,18 @@ namespace Nucumber.tests
 	[TestFixture]
 	class ParsingGherkin
 	{
-		private const string ExpectedScenarioDescription = "Example 1";
-	    private const string ExpectedFeatureName = "Example feature";
-
-        private string _inputFeature;
+	    private string _inputFeature;
 	    private GherkinParser _parser;
 
 	    [SetUp]
 		public void Given_we_are_parsing_this_feature_file()
 		{
 			var featureBuilder = new StringBuilder();
-			featureBuilder.AppendLine(string.Format("Feature: {0}", ExpectedFeatureName));
+			featureBuilder.AppendLine("Feature: Example feature");
 			featureBuilder.AppendLine();
 			featureBuilder.AppendLine("As a something, etc etc");
 			featureBuilder.AppendLine();
-			featureBuilder.AppendLine(string.Format("Scenario: {0}", ExpectedScenarioDescription));
+			featureBuilder.AppendLine("Scenario: Example 1");
 			featureBuilder.AppendLine();
 			featureBuilder.AppendLine("Given some precondition");
 			featureBuilder.AppendLine("And some second precondition");
@@ -52,7 +49,7 @@ namespace Nucumber.tests
         public void Parsing_this_gherkin_returns_a_feature_with_the_correct_title()
         {
             var result = _parser.Parse(_inputFeature);
-            Assert.That(result.Title, Is.EqualTo(ExpectedFeatureName));
+            Assert.That(result.Title, Is.EqualTo("Example feature"));
         }
 
 		[Test]
@@ -73,7 +70,7 @@ namespace Nucumber.tests
         public void Parsing_this_gherkin_returns_a_feature_where_the_first_scenario_has_the_correct_description()
         {
             var result = _parser.Parse(_inputFeature);
-            Assert.That(result.Scenarios.First().Description, Is.EqualTo(ExpectedScenarioDescription));
+            Assert.That(result.Scenarios.First().Description, Is.EqualTo("Example 1"));
         }
 	}
 }
