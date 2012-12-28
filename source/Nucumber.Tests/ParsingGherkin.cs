@@ -72,6 +72,27 @@ namespace Nucumber.tests
             var result = _parser.Parse(_inputFeature);
             Assert.That(result.Scenarios.First().Description, Is.EqualTo("Example 1"));
         }
+
+        [Test]
+        public void Parsing_this_gherkin_returns_a_feature_where_the_first_scenario_has_two_Given_steps()
+        {
+            var result = _parser.Parse(_inputFeature);
+            Assert.That(result.Scenarios.First().Givens.Count(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Parsing_this_gherkin_returns_a_feature_where_the_when_step_has_the_correct_text()
+        {
+            var result = _parser.Parse(_inputFeature);
+            Assert.That(result.Scenarios.First().Whens.First(), Is.EqualTo("When I perform some action"));
+        }
+
+        [Test]
+        public void Parsing_this_gherkin_returns_a_feature_where_the_first_scenario_has_two_Then_steps()
+        {
+            var result = _parser.Parse(_inputFeature);
+            Assert.That(result.Scenarios.First().Thens.Count(), Is.EqualTo(2));
+        }
 	}
 }
 
