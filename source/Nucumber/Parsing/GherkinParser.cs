@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Nucumber
+namespace Nucumber.Parsing
 {
     public class GherkinParser
     {
@@ -12,17 +12,5 @@ namespace Nucumber
                 Scenarios = new List<GherkinScenario>{new GherkinScenario()}
             };
         }
-    }
-
-    public struct Gherkin
-    {
-        public string Title { get; set; }
-
-        public IEnumerable<GherkinScenario> Scenarios { get; set; }
-    }
-
-    public struct GherkinScenario
-    {
-        public string Description { get; set; }
     }
 }

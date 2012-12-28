@@ -11,7 +11,7 @@ namespace Nucumber.Controllers
 
         public ActionResult Index()
         {
-            return Json("You have navigated to features correctly",JsonRequestBehavior.AllowGet);
+            return Json("You have navigated to features correctly", JsonRequestBehavior.AllowGet);
         }
 
         /// <param name="id">The name of the feature file</param>
