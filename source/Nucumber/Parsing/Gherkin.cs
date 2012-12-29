@@ -42,23 +42,32 @@ namespace Nucumber.Parsing
         {
             var valid = false;
 
-            switch (newState)
+            switch (this.State)
             {
+                case GherkinLineType.None:
+                    valid = newState == GherkinLineType.FeatureHeader;
+                    break;
                 case GherkinLineType.FeatureHeader:
-                    valid = true;
+                    valid = (newState == GherkinLineType.ScenarioHeader) || (newState == GherkinLineType.None);
                     break;
                 case GherkinLineType.ScenarioHeader:
+                    valid = (newState == GherkinLineType.Given) || (newState == GherkinLineType.When) ||
+                            (newState == GherkinLineType.Then);
                     break;
                 case GherkinLineType.Given:
+                    valid = (newState == GherkinLineType.When) || (newState == GherkinLineType.Then) ||
+                            (newState == GherkinLineType.But) || (newState == GherkinLineType.None);
                     break;
                 case GherkinLineType.When:
+                    valid = (newState == GherkinLineType.Then) || (newState == GherkinLineType.But) ||
+                            (newState == GherkinLineType.None);
                     break;
                 case GherkinLineType.Then:
+                    valid = (newState == GherkinLineType.But) || (newState == GherkinLineType.None) ||
+                            (newState == GherkinLineType.ScenarioHeader);
                     break;
-                case GherkinLineType.But:
-                    break;
-                case GherkinLineType.None:
-                    break;
+                default:
+                    throw new Exception("Current state of Gherkin object unexpected.");
             }
 
             if (!valid) {throw new InvalidOperationException
