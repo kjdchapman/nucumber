@@ -18,7 +18,7 @@ namespace Nucumber.tests
         }
 
         [Test]
-        public void A_feature_header_is_valid_to_start_with()
+        public void To_start_a_feature_file_a_feature_header_is_valid()
         {
             foreach (var type in _allLineTypes.Where(type => type == GherkinLineType.FeatureHeader))
             {
@@ -29,7 +29,7 @@ namespace Nucumber.tests
         }
         
         [Test]
-        public void Everything_except_a_feature_header_is_not_valid_to_start_with()
+        public void To_start_a_feature_file_everything_except_a_feature_header_is_not_valid()
         {
             foreach (var type in _allLineTypes.Where(type => type != GherkinLineType.FeatureHeader))
             {
@@ -40,7 +40,7 @@ namespace Nucumber.tests
         }
 
         [Test]
-        public void Scenario_header_and_typeless_line_are_valid_after_a_feature_header()
+        public void After_a_feature_header_a_scenario_header_or_typeless_line_is_valid()
         {
             var typeBitmask = GherkinLineType.ScenarioHeader | GherkinLineType.None;
             var typesToTest = _allLineTypes.Where(type => typeBitmask.HasFlag(type));
@@ -55,7 +55,7 @@ namespace Nucumber.tests
         }
 
         [Test]
-        public void Everything_except_scenario_header_and_typeless_line_are_not_valid_after_a_feature_header()
+        public void After_a_feature_header_everything_except_a_scenario_header_or_typeless_line_is_not_valid()
         {
             var typeBitmask = GherkinLineType.ScenarioHeader | GherkinLineType.None;
             var typesToTest = _allLineTypes.Where(type => !typeBitmask.HasFlag(type));
@@ -70,7 +70,7 @@ namespace Nucumber.tests
         }
 
         [Test]
-        public void Given_When_and_Then_are_valid_after_a_scenario_header()
+        public void After_a_scenario_header_Given_When_and_Then_are_valid()
         {
             var typeBitmask = GherkinLineType.Given | GherkinLineType.When | GherkinLineType.Then;
             var typesToTest = _allLineTypes.Where(type => typeBitmask.HasFlag(type));
@@ -86,7 +86,7 @@ namespace Nucumber.tests
         }
 
         [Test]
-        public void Everything_except_Given_When_and_Then_are_not_valid_after_a_scenario_header()
+        public void After_a_scenario_header_everything_except_Given_When_and_Then_are_not_valid()
         {
             var typeBitmask = GherkinLineType.Given | GherkinLineType.When | GherkinLineType.Then;
             var typesToTest = _allLineTypes.Where(type => !typeBitmask.HasFlag(type));
@@ -101,9 +101,43 @@ namespace Nucumber.tests
             }
         }
 
+        [Test]
+        public void After_a_Given_element_When_or_Then_or_But_or_a_typeless_line_are_valid()
+        {
+            var typeBitmask = GherkinLineType.When | GherkinLineType.Then | GherkinLineType.But | GherkinLineType.None;
+            var typesToTest = _allLineTypes.Where(type => typeBitmask.HasFlag(type));
+
+            foreach (var type in typesToTest)
+            {
+                var gherkin = new Gherkin();
+                gherkin.StartNewElement(GherkinLineType.FeatureHeader);
+                gherkin.StartNewElement(GherkinLineType.ScenarioHeader);
+                gherkin.StartNewElement(GherkinLineType.Given);
+
+                TestStartingNewElement(gherkin, type, expectedValid: true);
+            }
+        }
 
         [Test]
-        public void Then_But_and_typeless_line_are_valid_after_a_When()
+        public void After_a_Given_element_everything_except_When_or_Then_or_But_or_a_typeless_line_are_not_valid()
+        {
+            var typeBitmask = GherkinLineType.When | GherkinLineType.Then | GherkinLineType.But | GherkinLineType.None;
+            var typesToTest = _allLineTypes.Where(type => !typeBitmask.HasFlag(type));
+
+            foreach (var type in typesToTest)
+            {
+                var gherkin = new Gherkin();
+                gherkin.StartNewElement(GherkinLineType.FeatureHeader);
+                gherkin.StartNewElement(GherkinLineType.ScenarioHeader);
+                gherkin.StartNewElement(GherkinLineType.Given);
+
+                TestStartingNewElement(gherkin, type, expectedValid: false);
+            }
+        }
+
+
+        [Test]
+        public void After_a_When_element_Then_or_But_or_a_typeless_line_are_valid()
         {
             var typeBitmask = GherkinLineType.Then | GherkinLineType.But | GherkinLineType.None;
             var typesToTest = _allLineTypes.Where(type => typeBitmask.HasFlag(type));
@@ -121,7 +155,7 @@ namespace Nucumber.tests
         }
 
         [Test]
-        public void Everything_except_Then_But_And_typeless_line_are_not_valid_after_a_scenario_header()
+        public void After_a_When_element_everything_exception_Then_or_But_or_a_typeless_line_are_not_valid()
         {
             var typeBitmask = GherkinLineType.Then | GherkinLineType.But | GherkinLineType.None;
             var typesToTest = _allLineTypes.Where(type => !typeBitmask.HasFlag(type));
@@ -139,7 +173,7 @@ namespace Nucumber.tests
         }
 
         [Test]
-        public void But_and_scenario_header_and_typeless_line_are_valid_after_a_Then()
+        public void After_a_Then_element_But_or_a_scenario_header_or_a_typeless_line_are_valid()
         {
             var typeBitmask = GherkinLineType.But | GherkinLineType.ScenarioHeader | GherkinLineType.None;
             var typesToTest = _allLineTypes.Where(type => typeBitmask.HasFlag(type));
@@ -158,7 +192,7 @@ namespace Nucumber.tests
         }
 
         [Test]
-        public void Everything_except_But_and_scenario_header_and_typeless_line_are_not_valid_after_a_Then()
+        public void After_a_Then_element_everything_except_But_or_a_scenario_header_or_a_typeless_line_are_not_valid()
         {
             var typeBitmask = GherkinLineType.But | GherkinLineType.ScenarioHeader | GherkinLineType.None;
             var typesToTest = _allLineTypes.Where(type => !typeBitmask.HasFlag(type));
@@ -183,7 +217,7 @@ namespace Nucumber.tests
                 gherkin.StartNewElement(type);
 
                 Assert.That(expectedValid, Is.EqualTo(true), 
-                    String.Format("No exceptions thrown for state transition to {0} - expected an invalid state transition.", type));
+                    String.Format("No exceptions thrown for state transition to {0} - expected the state transition to be not valid.", type));
             }
             catch (Exception ex)
             {
