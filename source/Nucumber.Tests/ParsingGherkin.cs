@@ -81,7 +81,7 @@ namespace Nucumber.tests
         }
 
         [Test]
-        public void Parsing_this_gherkin_returns_a_feature_where_the_when_step_has_the_correct_text()
+        public void Parsing_this_gherkin_returns_a_feature_where_the_When_step_has_the_correct_text()
         {
             var result = _parser.Parse(_inputFeature);
             Assert.That(result.Scenarios.First().Whens.First(), Is.EqualTo("When I perform some action"));
