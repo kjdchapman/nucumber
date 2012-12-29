@@ -5,7 +5,7 @@ namespace Nucumber.Parsing
     [Flags]
     public enum GherkinLineType
     {
-        Unknown = 0,
+        Unknown = 1,
         None = 2,
         FeatureHeader = 4,
         ScenarioHeader = 8,
