@@ -45,6 +45,7 @@ namespace Nucumber.Parsing
             switch (newState)
             {
                 case GherkinLineType.FeatureHeader:
+                    valid = true;
                     break;
                 case GherkinLineType.ScenarioHeader:
                     break;
