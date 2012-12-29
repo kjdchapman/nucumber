@@ -64,7 +64,7 @@ namespace Nucumber.Parsing
             if (!valid) {throw new InvalidOperationException
                 (String.Format("Cannot create {0} element after {1} element.", newState, State));}
 
-            if (newState != GherkinLineType.None) { this.State = newState; }
+            if (!newState.HasFlag(GherkinLineType.None | GherkinLineType.But)) { this.State = newState; }
         }
 
         public void WriteToCurrentElement(string currentLine)

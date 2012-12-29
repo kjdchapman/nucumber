@@ -1,15 +1,18 @@
+using System;
+
 namespace Nucumber.Parsing
 {
+    [Flags]
     public enum GherkinLineType
     {
         Unknown = 0,
-        None = 1,
-        FeatureHeader = 2,
-        ScenarioHeader = 3,
-        Given = 4,
-        When = 5,
-        Then = 6,
-        But = 7,
-        And = 8
+        None = 2,
+        FeatureHeader = 4,
+        ScenarioHeader = 8,
+        Given = 16,
+        When = 32,
+        Then = 64,
+        But = 128,
+        And = 256
     }
 }
