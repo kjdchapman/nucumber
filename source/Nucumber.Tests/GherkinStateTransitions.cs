@@ -97,7 +97,7 @@ namespace Nucumber.tests
                 gherkin.StartNewElement(GherkinLineType.FeatureHeader);
                 gherkin.StartNewElement(GherkinLineType.ScenarioHeader);
 
-                TestStartingNewElement(gherkin, type, expectedValid: true);
+                TestStartingNewElement(gherkin, type, expectedValid: false);
             }
         }
 
