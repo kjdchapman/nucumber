@@ -5,18 +5,25 @@ namespace Nucumber.Parsing
 {
     public class Gherkin
     {
-        private const string FeatureMarker = "Feature:";
-        private const string ScenarioMarker = "Scenario:";
-        private const string GivenMarker = "Given";
-        private const string WhenMarker = "When";
-        private const string ThenMarker = "Then";
-        private const string ButMarker = "But";
+        public const string FeatureMarker = "Feature:";
+        public const string ScenarioMarker = "Scenario:";
+        public const string GivenMarker = "Given";
+        public const string WhenMarker = "When";
+        public const string ThenMarker = "Then";
+        public const string ButMarker = "But";
 
         public string Title { get; private set; }
         public string Blurb { get; private set; }
-        public IEnumerable<GherkinScenario> Scenarios { get; private set; }
 
-        protected GherkinLineType State { get; set; }
+        private GherkinScenario _currentScenario;
+        private GherkinLineType _currentParsingLineType;
+
+        private readonly List<GherkinScenario> _scenarios;
+
+        public IEnumerable<GherkinScenario> Scenarios
+        {
+            get { return _scenarios; }
+        }
 
         public static GherkinLineType GetLineType(string line)
         {
@@ -35,14 +42,15 @@ namespace Nucumber.Parsing
 
         public Gherkin()
         {
-            State = GherkinLineType.None;
+            _scenarios = new List<GherkinScenario>();
+            _currentParsingLineType = GherkinLineType.None;
         }
 
         public void StartNewElement(GherkinLineType newState)
         {
             var valid = false;
 
-            switch (this.State)
+            switch (this._currentParsingLineType)
             {
                 case GherkinLineType.None:
                     valid = newState == GherkinLineType.FeatureHeader;
@@ -71,14 +79,72 @@ namespace Nucumber.Parsing
             }
 
             if (!valid) {throw new InvalidOperationException
-                (String.Format("Cannot create {0} element after {1} element.", newState, State));}
+                (String.Format("Cannot create {0} element after {1} element.", newState, _currentParsingLineType));}
 
-            if (!newState.HasFlag(GherkinLineType.None | GherkinLineType.But)) { this.State = newState; }
+            if (!newState.HasFlag(GherkinLineType.None | GherkinLineType.But)) { this._currentParsingLineType = newState; }
         }
 
         public void WriteToCurrentElement(string currentLine)
         {
-            throw new NotImplementedException();
+            switch (this._currentParsingLineType)
+            {
+                case GherkinLineType.FeatureHeader:
+                    WriteToFeaturePreamble(currentLine);
+                    break;
+                case GherkinLineType.ScenarioHeader:
+                    StartNewScenario();
+                    _currentScenario.WriteDescription(currentLine);
+                    break;
+                case GherkinLineType.Given:
+                    _currentScenario.WriteGiven(currentLine);
+                    break;
+                case GherkinLineType.When:
+                    _currentScenario.WriteWhen(currentLine);
+                    break;
+                case GherkinLineType.Then:
+                    _currentScenario.WriteThen(currentLine);
+                    break;
+                case GherkinLineType.But:
+                    _currentScenario.WriteAndOrBut(currentLine);
+                    break;
+                case GherkinLineType.And:
+                    _currentScenario.WriteAndOrBut(currentLine);
+                    break;
+                default:
+                    throw new InvalidOperationException("No element has been initialised on this Gherkin.");
+            }
+        }
+
+        private void StartNewScenario()
+        {
+            if (_currentScenario == null) {_currentScenario = new GherkinScenario();}
+
+            if (_currentScenario.IsComplete)
+            {
+                _currentScenario = new GherkinScenario();
+            }
+            else
+            {
+                _scenarios.Add(_currentScenario);
+                _currentScenario.MarkAsComplete();
+            }
+        }
+
+        private void WriteToFeaturePreamble(string currentLine)
+        {
+            if (currentLine.StartsWith(FeatureMarker))
+            {
+                Title = currentLine.TrimStart(FeatureMarker.ToCharArray()).Trim(' ');
+            }
+            else
+            {
+                AddToBlurb(currentLine);
+            }
+        }
+
+        private void AddToBlurb(string currentLine)
+        {
+            // does nothing
         }
     }
 };
