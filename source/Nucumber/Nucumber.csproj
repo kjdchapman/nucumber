@@ -38,9 +38,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FeatureFile.cs" />
     <Compile Include="FeatureStore.cs" />
-    <Compile Include="Parsing\Gherkin.cs" />
+    <Compile Include="Gherkin.cs" />
     <Compile Include="Parsing\GherkinLineType.cs" />
     <Compile Include="Parsing\GherkinParser.cs" />
     <Compile Include="Parsing\GherkinScenario.cs" />

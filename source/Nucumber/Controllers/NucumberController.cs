@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using Nucumber.Parsing;
 
 namespace Nucumber.Controllers
 {
     public class NucumberController : Controller
     {
-        private IEnumerable<FeatureFile> _featureStore;
+        private IEnumerable<Gherkin> _features;
 
         public ActionResult Index()
         {
@@ -19,12 +19,12 @@ namespace Nucumber.Controllers
         {
             // TODO: Do this injection just the once rather than with each method call
             var featuresPath = Server.MapPath(Url.Content("~/Features/"));
-            _featureStore = new FeatureStore(featuresPath);
+            _features = new FeatureStore(featuresPath);
             // </TODO>
-            
-            var featureFile = _featureStore.Single(f => f.Name == id);
 
-            return Json(featureFile.RawText, JsonRequestBehavior.AllowGet);
+            var feature = _features.First();
+
+            return Json(feature, JsonRequestBehavior.AllowGet);
         }
     }
 }

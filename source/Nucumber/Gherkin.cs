@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Nucumber.Parsing;
 
-namespace Nucumber.Parsing
+namespace Nucumber
 {
     public class Gherkin
     {
@@ -81,7 +82,7 @@ namespace Nucumber.Parsing
             if (!valid) {throw new InvalidOperationException
                 (String.Format("Cannot create {0} element after {1} element.", newState, _currentParsingLineType));}
 
-            if (!newState.HasFlag(GherkinLineType.None | GherkinLineType.But)) { this._currentParsingLineType = newState; }
+            if (!(GherkinLineType.None | GherkinLineType.But).HasFlag(newState)) { this._currentParsingLineType = newState; }
         }
 
         public void WriteToCurrentElement(string currentLine)

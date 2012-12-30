@@ -1,29 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Nucumber.Parsing;
 
-namespace Nucumber.Controllers
+namespace Nucumber
 {
     // NOTE: As we build search/filter functionality into this class, we want to separate it from the "editing files on disk" functionality.
-    public class FeatureStore : IEnumerable<FeatureFile>
+    public class FeatureStore : IEnumerable<Gherkin>
     {
-        private List<FeatureFile> _features;
+        private List<Gherkin> _features;
         
         public FeatureStore(string featuresPath)
         {
-            _features = new List<FeatureFile>();
+            _features = new List<Gherkin>();
+
+            var gherkinParser = new GherkinParser();
 
             foreach (var featureFileName in Directory.GetFiles(featuresPath))
             {
-                _features.Add(new FeatureFile
-                {
-                    Name = new FileInfo(featureFileName).Name,
-                    RawText = File.ReadAllText(featureFileName)
-                });
+                var rawText = File.ReadAllText(featureFileName);
+
+                _features.Add(gherkinParser.Parse(rawText));
             }
         }
 
-        public IEnumerator<FeatureFile> GetEnumerator()
+        public IEnumerator<Gherkin> GetEnumerator()
         {
             return _features.GetEnumerator();
         }
