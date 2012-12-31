@@ -8,6 +8,7 @@ namespace Nucumber.Parsing
     {
         public Gherkin Parse(string input)
         {
+            input = input.Replace("\t", string.Empty);
             var lines = input.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).Select(ca => ca.ToString()).ToList();
 
             var linesAndTypes = new Dictionary<string, GherkinLineType>();
@@ -19,7 +20,7 @@ namespace Nucumber.Parsing
             }
 
             var gherkin = new Gherkin();
-            var previousType = GherkinLineType.Unknown;
+            var previousType = GherkinLineType.None;
             
             foreach (var lineAndType in linesAndTypes)
             {

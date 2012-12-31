@@ -39,14 +39,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="FeatureStore.cs" />
-    <Compile Include="Gherkin.cs" />
-    <Compile Include="Parsing\GherkinLineType.cs" />
-    <Compile Include="Parsing\GherkinParser.cs" />
-    <Compile Include="Parsing\GherkinScenario.cs" />
+    <Compile Include="Feature\Gherkin.cs" />
+    <Compile Include="Feature\GherkinLineType.cs" />
+    <Compile Include="GherkinParser.cs" />
+    <Compile Include="Feature\GherkinScenario.cs" />
     <Compile Include="Controllers\NucumberController.cs" />
     <Compile Include="Initializer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\Nucumber.Web\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -54,6 +55,7 @@
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="WebActivator">
       <HintPath>..\Nucumber.Web\packages\WebActivator.1.5.2\lib\net40\WebActivator.dll</HintPath>
     </Reference>
@@ -63,6 +65,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Views\Nucumber\Details.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,11 +1,9 @@
-﻿using System.Web.Mvc;
-using System.Web.Routing;
+﻿using System.Web.Routing;
 using NUnit.Framework;
 using MvcContrib.TestHelper;
-using Nucumber.Web;
 using Nucumber.Web.Controllers;
 
-namespace Nucumber.Tests
+namespace Nucumber.Web.Tests
 {
     [TestFixture]
     public class RoutingTests

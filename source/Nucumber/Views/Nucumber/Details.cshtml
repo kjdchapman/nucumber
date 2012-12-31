@@ -1,0 +1,28 @@
+﻿@model Gherkin
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<h1>@Model.Title - Details</h1>
+
+<h2>@Model.Blurb</h2>
+
+@foreach (var scenario in Model.Scenarios)
+{
+    <div><strong>@scenario.Description</strong></div>
+    
+    @foreach (var given in scenario.Givens)
+    {
+         <div>@given</div>
+    }
+    @foreach (var when in scenario.Whens)
+    {
+         <div>@when</div>
+
+    @foreach (var then in scenario.Thens)
+    {
+         <div>@then</div>
+    }
+    }
+}

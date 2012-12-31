@@ -7,7 +7,7 @@ namespace Nucumber.Controllers
 {
     public class NucumberController : Controller
     {
-        private IEnumerable<Gherkin> _features;
+        private IEnumerable<Gherkin> _features = FeatureStore.GetInstance();
 
         public ActionResult Index()
         {
@@ -17,14 +17,9 @@ namespace Nucumber.Controllers
         /// <param name="id">The name of the feature file</param>
         public ActionResult Details(string id)
         {
-            // TODO: Do this injection just the once rather than with each method call
-            var featuresPath = Server.MapPath(Url.Content("~/Features/"));
-            _features = new FeatureStore(featuresPath);
-            // </TODO>
-
             var feature = _features.First();
 
-            return Json(feature, JsonRequestBehavior.AllowGet);
+            return View("Details");
         }
     }
 }
